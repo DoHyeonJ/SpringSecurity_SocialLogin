@@ -10,6 +10,7 @@ import java.util.Map;
 public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey, name, email, picture;
+
     @Builder
     public OAuthAttributes(Map<String, Object> attributes,
                            String nameAttributeKey,
@@ -20,12 +21,17 @@ public class OAuthAttributes {
         this.email = email;
         this.picture = picture;
     }
-    public static OAuthAttributes of(String registrationId,
-                                     String userNameAttributeName,
-                                     Map<String, Object> attributes) {
-        return ofGoogle(userNameAttributeName, attributes);
+
+    public static OAuthAttributes of(String registrationId, String userNameAttributeName,
+                                     Map<String ,Object> attributes) {
+
+        if ("naver".equals(registrationId)) {
+            return ofNaver("id",attributes);
+        }
+        return ofGoogle(userNameAttributeName,attributes);
     }
-    public static OAuthAttributes ofGoogle(String userNameAttributeName,
+
+    private static OAuthAttributes ofGoogle(String userNameAttributeName,
                                            Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
@@ -35,6 +41,20 @@ public class OAuthAttributes {
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
+
+    private static OAuthAttributes ofNaver(String userNameAttributeName,
+                                          Map<String,Object> attributes) {
+        Map<String,Object> response = (Map<String, Object>) attributes.get("response");
+
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profile_image"))
+                .attributes(response)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
     public Account toEntity() {
         return Account.builder()
                 .name(name)
@@ -43,4 +63,5 @@ public class OAuthAttributes {
                 .role(Role.GUEST)
                 .build();
     }
+
 }

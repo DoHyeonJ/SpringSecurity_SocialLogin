@@ -1,7 +1,6 @@
 package com.banchan.controller;
 
 import com.banchan.config.SessionUser;
-import com.banchan.domain.user.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,4 +27,5 @@ public class IndexController {
         }
         return "index";
     }
+
 }

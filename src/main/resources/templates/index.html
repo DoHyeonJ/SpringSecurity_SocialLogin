@@ -10,22 +10,23 @@
     <div>
         <h1>반찬가게 로그인</h1>
         <div th:if="${userName}">
-        <img th:src="${userPicture}" style="width: 80px;">
-        <div>
-            <span> 이름 : </span><span th:text="${userName}"></span>
+            <img th:src="${userPicture}" style="width: 80px;">
+            <div>
+                <span> 이름 : </span><span th:text="${userName}"></span>
             </div>
             <div>
-        <span> 이메일 : </span><span th:text="${userEmail}"></span>
+                <span> 이메일 : </span><span th:text="${userEmail}"></span>
             </div>
-            </div>
-            <p th:if="!${userName}">로그인 해주세요.</p>
+        </div>
+        <p th:if="!${userName}">로그인 해주세요.</p>
         <div>
             <a th:if="${userName}" href="/logout" class="btn btn-info active" role="button">로그아웃</a>
         </div>
-        <div>
-        <a th:if="!${userName}" href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
+        <div th:if="!${userName}">
+            <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
+            <a href="/oauth2/authorization/naver" class="btn btn-success active" role="button">네이버 로그인</a>
         </div>
-        </div>
+    </div>
 </div>
 </body>
 </html>
